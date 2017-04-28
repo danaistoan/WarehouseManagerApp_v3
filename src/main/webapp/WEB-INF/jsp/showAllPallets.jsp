@@ -1,5 +1,11 @@
-<!DOCTYPE html>
-
+<%--
+  Created by IntelliJ IDEA.
+  User: dana
+  Date: 4/27/2017
+  Time: 8:43 AM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -26,12 +32,16 @@
     <div id="demo_jui">
         <div id="userInfo" align="right"> </div>
 
-        <form id="logoutForm" action="warehouseOperations" method="POST" align="right">
+        <form id="logoutForm" action="logout" method="POST" align="right">
             <input type="hidden" name="action" value="logout"/>
             <a onclick="logout()">Logout</a>
         </form>
 
         <div class="pageTitle">Pallet list</div>
+
+        <div id="messageAddSuccess" class="messageAddSuccess">Pallet successfully added to warehouse!</div>
+
+        <div id="messageDeleteSuccess" class="messageDeleteSuccess">Pallet successfully deleted from warehouse!</div>
 
         <div class="addPallet">
             <a onclick="addPallet()">Add new pallet</a>
@@ -39,12 +49,12 @@
 
         <table id="pallets_table" class="display">
             <thead>
-                <tr>
-                    <th></th>
-                    <th>Id</th>
-                    <th>Description</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody></tbody>
         </table>
@@ -58,8 +68,8 @@
                 <br/><br/>
 
                 <table id="packageList">
-                        <td>Package description</td>
-                        <td>Package type</td>
+                    <td>Package description</td>
+                    <td>Package type</td>
                     </tr>
                 </table>
 

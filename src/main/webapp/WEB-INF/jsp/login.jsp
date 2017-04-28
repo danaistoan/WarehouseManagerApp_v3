@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<h1 style="text-align:center;">Welcome to Warehouse Manager WebApp!</h1>
+<h1 style="text-align:center;">${greeting}</h1>
     <br/>
     <h2 style="text-align:center;">Login</h2>
 
@@ -22,7 +22,7 @@
         <div class="loginFailure">Invalid username or password</div>
     </c:if>
 
-    <form style="text-align:center;" action="warehouseOperations" method="post">
+    <form style="text-align:center;" action="login" method="POST">
         <br/>Username:<input type="text" name="username">
         <br/>Password:<input type="password" name="password">
         <input type="hidden" name="action" value="login"/>

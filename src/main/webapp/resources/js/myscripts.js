@@ -4,7 +4,7 @@ function logout(){
 
 function loadUserInfo(){
     var userInfo = $("#userInfo");
-    $.get("warehouseOperations?action=userInfo", function(data, status){
+    $.get("userInfo", function(data, status){
         userInfo.html("Current user: <b>" + data.username + "</b>");
 
         if(data.userType == "A") {
@@ -19,7 +19,7 @@ function loadUserInfo(){
 function loadDataTable(){
     table = $("#pallets_table").DataTable({
         "serverSide": true,
-        "ajax": {url: 'warehouseOperations?action=allPallets', dataSrc: 'palletList'},
+        "ajax": {url: 'getAllPallets', dataSrc: 'palletList'},
         //"ajaxDataProp": "",
         "processing": true,
         //"ordering": true,
@@ -62,8 +62,10 @@ function loadDataTable(){
     $('#pallets_table tbody').on('click', 'td.delete-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row(tr);
-        $.post("warehouseOperations?action=deletePallet", { palletId: row.data().id}, function(){
+        $.post("deletePallet", { palletId: row.data().id}, function(){
+            $("#messageDeleteSuccess").show();
             table.ajax.reload();
+            $('#messageDeleteSuccess').delay(1000).hide(500);
         });
     });
 }
@@ -71,7 +73,7 @@ function loadDataTable(){
 function loadDataTableReadOnly(){
     table = $("#pallets_table").DataTable({
         "serverSide": true,
-        "ajax": {url: 'warehouseOperations?action=allPallets', dataSrc: 'palletList'},
+        "ajax": {url: 'getAllPallets', dataSrc: 'palletList'},
         //"ajaxDataProp": "",
         "processing": true,
         //"ordering": true,
@@ -176,13 +178,15 @@ function savePallet(){
         pallet.packages.push(packageItem);
     });
 
-    $.post("/WarehouseManager/warehouseOperations?action=addPallet",
+    $.post("addPallet",
         {
             palletJson: JSON.stringify(pallet)
         },
         function () {
             $("#dialog-form").dialog("close");
+            $("#messageAddSuccess").show();
             table.ajax.reload();
+            $('#messageAddSuccess').delay(1000).hide(500);
         }
     );
     $("#dialog-form form").trigger('reset');
@@ -190,12 +194,9 @@ function savePallet(){
 }
 
 function addPackage(){
-    $("#packageList").append('<tr class="packageItem"><td><input type="text" class="packageDescription" name="packDescription" /></td><td><input type="text" class="packageType" name="packType" /></td></tr>');
-    /*$(".packageType").last().blur(function () {
-     if (true) {
-     alert("Pease press the Save button");
-     $(".packageType").last().val("")};
-     }); */
+    $("#packageList").append('<tr class="packageItem">' +
+                            '<td><input type="text" class="packageDescription" name="packDescription" /></td>' +
+                            '<td><input type="text" class="packageType" name="packType" /></td></tr>');
 }
 
 function format(currentPallet) {
@@ -223,7 +224,13 @@ function getPackageRows(pallet) {
     return resultPackages;
 }
 
-
+/*
+setTimeout(function()
+    {
+        document.getElementById("messageAddSuccess").style.display = "none";
+    },
+    3000);
+*/
 
 
 

@@ -35,3 +35,15 @@ td.delete-control {
     text-align: center;
     color: #ff0000;
 }
+
+.messageAddSuccess {
+    text-align: center;
+    color: #0eff63;
+    display: none;
+}
+
+.messageDeleteSuccess {
+    text-align: center;
+    color: #ff0000;
+    display: none;
+}

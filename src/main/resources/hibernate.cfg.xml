@@ -28,6 +28,9 @@
 		<!-- Mapping with model class containing annotations -->
 		<mapping class="com.tgs.warehouse.entities.ProductPackage" />
 		<mapping class="com.tgs.warehouse.entities.ProductPallet" />
+        <mapping class="com.tgs.warehouse.entities.User" />
+        <mapping class="com.tgs.warehouse.entities.Shipment" />
+        <mapping class="com.tgs.warehouse.entities.PlannedShipment" />
 		
     </session-factory>
 </hibernate-configuration>

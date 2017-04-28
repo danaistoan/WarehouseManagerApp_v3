@@ -1,12 +1,8 @@
 package com.tgs.warehouse.util;
-
+import com.tgs.warehouse.entities.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-
-import com.tgs.warehouse.entities.ProductPackage;
-import com.tgs.warehouse.entities.ProductPallet;
-import com.tgs.warehouse.entities.User;
 
 public class HibernateUtil {
 
@@ -18,6 +14,8 @@ public class HibernateUtil {
 			configuration.addAnnotatedClass(ProductPallet.class);
 			configuration.addAnnotatedClass(ProductPackage.class);
 			configuration.addAnnotatedClass(User.class);
+			configuration.addAnnotatedClass(Shipment.class);
+            configuration.addAnnotatedClass(PlannedShipment.class);
 
 			StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
 					.applySettings(configuration.getProperties());
