@@ -6,12 +6,13 @@ package com.tgs.warehouse.controller;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.tgs.warehouse.backingbean.UserBackingBean;
+import com.tgs.warehouse.services.UserService;
 import com.tgs.warehouse.dao.LogisticUnitDAO;
 import com.tgs.warehouse.entities.ProductPallet;
 import com.tgs.warehouse.entities.User;
 import com.tgs.warehouse.util.DataTablesParamUtil;
 import com.tgs.warehouse.util.JQueryDataTableParamModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +29,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class WarehouseController {
+
+    @Autowired
+    private LogisticUnitDAO logisticUnit;
+
+    @Autowired
+    UserService userService;
 
     public WarehouseController(){
         System.out.println("In WarehouseController");
@@ -52,11 +59,10 @@ public class WarehouseController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ModelAndView processLogin(HttpServletRequest request){
 
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-        UserBackingBean userBackingBean = new UserBackingBean();
-        User userLogat = userBackingBean.doLogin(username, password);
+        User userLogat = userService.doLogin(username, password);
         ModelAndView mv;
 
         if(userLogat != null) {
@@ -94,7 +100,6 @@ public class WarehouseController {
 
         JQueryDataTableParamModel param = DataTablesParamUtil.getParam(request);
 
-        LogisticUnitDAO logisticUnit = new LogisticUnitDAO();
         List<ProductPallet> allPallets = logisticUnit.getAllPallets();
 
         if(param.searchValue != null && param.searchValue != ""){
@@ -109,7 +114,6 @@ public class WarehouseController {
 
         ObjectMapper mapper = new ObjectMapper();
         ProductPallet pallet = new ProductPallet();
-        LogisticUnitDAO logisticUnit = new LogisticUnitDAO();
 
         try {
             String jsonPallet = request.getParameter("palletJson");
@@ -129,9 +133,7 @@ public class WarehouseController {
     public ModelAndView deletePallet(HttpServletRequest request){
 
         Long palletId = Long.parseLong(request.getParameter("palletId"));
-        LogisticUnitDAO logisticUnit = new LogisticUnitDAO();
         boolean palletDeleted = logisticUnit.deleteProductPallet(palletId);
-
         ModelAndView mav = new ModelAndView("showAllPallets");
 
         if (palletDeleted) {

@@ -1,14 +1,16 @@
-package com.tgs.warehouse.backingbean;
+package com.tgs.warehouse.services;
 
 import com.tgs.warehouse.dao.UserDAO;
 import com.tgs.warehouse.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by dana on 4/19/2017.
  */
-public class UserBackingBean {
+public class UserService {
 
-    UserDAO userDAO = new UserDAO();
+    @Autowired
+    private UserDAO userDAO;
 
     public User doLogin(String username, String password){
 

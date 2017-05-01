@@ -19,7 +19,7 @@
         <property name="hibernate.globally_quoted_identifiers=true"/>
         
         <!-- SQL dialect -->
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
         
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
