@@ -30,19 +30,9 @@ public class ProductPackage implements Serializable{
 	@Column(name="product_pallet_id")
 	private Long palletId;
 	
-	//@ManyToOne
-	//@JoinColumn(name="product_pallet_id", referencedColumnName="id")
-	//ProductPallet product_pallet;
-	
 	public ProductPackage(){
 		
 	}
-	
-	public ProductPackage(String description, String type){
-		this.description = description;
-		this.type = type;
-	}
-
 
 	public Long getId() {
 		return id;

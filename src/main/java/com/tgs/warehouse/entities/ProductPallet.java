@@ -39,11 +39,6 @@ public class ProductPallet implements Serializable{
 	public ProductPallet(){
 	}
 	
-	public ProductPallet(Long id, String description){
-		this.id = id;
-		this.description = description;
-	}
-	
 	public ProductPallet(String description, List<ProductPackage> packages){
 		this.description = description;
 		this.packages = packages;
