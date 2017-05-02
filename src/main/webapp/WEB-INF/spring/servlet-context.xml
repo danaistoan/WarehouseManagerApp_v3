@@ -65,19 +65,19 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-    <bean id="logisticUnitDao" class="com.tgs.warehouse.dao.LogisticUnitDAO">
-        <constructor-arg>
-            <ref bean="sessionFactory" />
-        </constructor-arg>
-    </bean>
+    <!--<bean id="logisticUnitDao" class="com.tgs.warehouse.dao.LogisticUnitDAO">-->
+        <!--<constructor-arg>-->
+            <!--<ref bean="sessionFactory" />-->
+        <!--</constructor-arg>-->
+    <!--</bean>-->
 
-    <bean id="userDao" class="com.tgs.warehouse.dao.UserDAO">
-        <constructor-arg>
-            <ref bean="sessionFactory" />
-        </constructor-arg>
-    </bean>
+    <!--<bean id="userDao" class="com.tgs.warehouse.dao.UserDAO">-->
+        <!--<constructor-arg>-->
+            <!--<ref bean="sessionFactory" />-->
+        <!--</constructor-arg>-->
+    <!--</bean>-->
 
-    <bean id="userService" class="com.tgs.warehouse.services.UserService"></bean>
+    <!--<bean id="userService" class="com.tgs.warehouse.services.UserService"></bean>-->
 
     <!--jee:jndi-lookup jndi-name="jdbc/DatasourcesDB" id="dataSource"
                      expected-type="javax.sql.DataSource">

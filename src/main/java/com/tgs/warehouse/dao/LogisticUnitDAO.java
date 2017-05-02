@@ -2,17 +2,23 @@ package com.tgs.warehouse.dao;
 
 
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
 import com.tgs.warehouse.entities.ProductPallet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public class LogisticUnitDAO {
 
 	private SessionFactory sessionFactory;
 
+	@Autowired
 	public LogisticUnitDAO(SessionFactory sessionFactory) {
+		Objects.requireNonNull(sessionFactory);
 		this.sessionFactory = sessionFactory;
 	}
 
