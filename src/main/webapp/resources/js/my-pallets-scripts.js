@@ -1,6 +1,3 @@
-function logout(){
-    $("#logoutForm").submit();
-}
 
 function loadUserInfo(){
     var userInfo = $("#userInfo");
@@ -8,15 +5,15 @@ function loadUserInfo(){
         userInfo.html("Current user: <b>" + data.username + "</b>");
 
         if(data.userType == "A") {
-            loadDataTable();
+            loadDataTablePallets();
         } else {
-            loadDataTableReadOnly();
+            loadDataTablePalletsReadOnly();
             $(".addPallet").hide();
         }
     });
 }
 
-function loadDataTable(){
+function loadDataTablePallets(){
     table = $("#pallets_table").DataTable({
         "serverSide": true,
         "ajax": {url: 'getAllPallets', dataSrc: 'palletList'},
@@ -54,7 +51,7 @@ function loadDataTable(){
         }
         else {
             // Open this row
-            row.child(format(row.data())).show();
+            row.child(formatPallet(row.data())).show();
             tr.addClass('shown');
         }
     });
@@ -70,7 +67,7 @@ function loadDataTable(){
     });
 }
 
-function loadDataTableReadOnly(){
+function loadDataTablePalletsReadOnly(){
     table = $("#pallets_table").DataTable({
         "serverSide": true,
         "ajax": {url: 'getAllPallets', dataSrc: 'palletList'},
@@ -113,20 +110,20 @@ function loadDataTableReadOnly(){
 }
 
 function addPallet(){
-    var newPalletForm = $( "#dialog-form" ).dialog({
+    var newPalletForm = $( "#pallet-dialog-form" ).dialog({
         autoOpen: false,
         height: 400,
         width: 400,
         modal: true,
         close: function (e) {
-            $("#dialog-form form").trigger('reset');
+            $("#pallet-dialog-form form").trigger('reset');
             $(".packageItem").remove();
         },
         buttons: {
             "Save": savePallet,
             "Cancel": function() {
                 newPalletForm.dialog( "close" );
-                $("#dialog-form form").trigger('reset');
+                $("#pallet-dialog-form form").trigger('reset');
                 $(".packageItem").remove();
             },
             "Add new package": addPackage
@@ -134,7 +131,7 @@ function addPallet(){
     });
 
     // Initilize the validation
-    $("#dialog-form form").validate({
+    $("#pallet-dialog-form form").validate({
         rules: {
             description: {
                 required: true,
@@ -161,7 +158,7 @@ function addPallet(){
 }
 
 function savePallet(){
-    var myForm = $("#dialog-form form");
+    var myForm = $("#pallet-dialog-form form");
     if (!myForm.valid())
         return;
 
@@ -183,13 +180,13 @@ function savePallet(){
             palletJson: JSON.stringify(pallet)
         },
         function () {
-            $("#dialog-form").dialog("close");
+            $("#pallet-dialog-form").dialog("close");
             $("#messageAddSuccess").show();
             table.ajax.reload();
             $('#messageAddSuccess').delay(1000).hide(500);
         }
     );
-    $("#dialog-form form").trigger('reset');
+    $("#pallet-dialog-form form").trigger('reset');
     $(".packageItem").remove();
 }
 
@@ -199,7 +196,7 @@ function addPackage(){
                             '<td><input type="text" class="packageType" name="packType" /></td></tr>');
 }
 
-function format(currentPallet) {
+function formatPallet(pallet) {
     return '<div class="childTableTitle">Packages</div>' +
         '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
@@ -207,7 +204,7 @@ function format(currentPallet) {
         '<td>Description</td>' +
         '<td>Type</td>' +
         '</tr>' +
-        getPackageRows(currentPallet) +
+        getPackageRows(pallet) +
         '</table>';
 }
 
@@ -223,14 +220,3 @@ function getPackageRows(pallet) {
     }
     return resultPackages;
 }
-
-/*
-setTimeout(function()
-    {
-        document.getElementById("messageAddSuccess").style.display = "none";
-    },
-    3000);
-*/
-
-
-

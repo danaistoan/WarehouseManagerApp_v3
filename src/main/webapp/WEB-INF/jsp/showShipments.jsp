@@ -1,15 +1,16 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: dana
-  Date: 4/27/2017
-  Time: 8:43 AM
+  Date: 5/2/2017
+  Time: 11:57 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Show all pallets</title>
+    <title>Show shipments</title>
     <!-- link rel="stylesheet" type="text/css" href="/css/styles.css"/> -->
 
     <link href="resources/css/demo_page.css" rel="stylesheet" type="text/css"/>
@@ -25,11 +26,11 @@
     <script type="text/javascript" src="resources/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="resources/js/jquery.validate.js"></script>
     <script type="text/javascript" src="resources/js/my-common-scripts.js"></script>
-    <script type="text/javascript" src="resources/js/my-pallets-scripts.js"></script>
-</head> <div id="demo_jui">
+    <script type="text/javascript" src="resources/js/my-shipments-scripts.js"></script>
+</head>
 <body id="dt_example">
 <div id="container">
-
+    <div id="demo_jui">
         <div id="userInfo" align="right"> </div>
 
         <form id="logoutForm" action="logout" method="POST" align="right">
@@ -37,42 +38,47 @@
             <a onclick="logout()">Logout</a>
         </form>
 
-        <div class="pageTitle">Pallet list</div>
+        <div class="pageTitle">Shipment list</div>
 
-        <div id="messageAddSuccess" class="messageAddSuccess">Pallet successfully added to warehouse!</div>
+        <div id="messageAddSuccess" class="messageAddSuccess">Shipment successfully added to warehouse!</div>
+        <div id="messageUpdateSuccess" class="messageUpdateSuccess">Shipment successfully updated!</div>
+        <div id="messageDeleteSuccess" class="messageDeleteSuccess">Shipment successfully deleted from warehouse!</div>
 
-        <div id="messageDeleteSuccess" class="messageDeleteSuccess">Pallet successfully deleted from warehouse!</div>
-
-        <div class="addPallet">
-            <a onclick="addPallet()">Add new pallet</a>
+        <div class="addShipment">
+            <a onclick="addShipment()">Add new shipment</a>
         </div>
 
-        <table id="pallets_table" class="display">
+        <table id="shipments_table" class="display">
             <thead>
             <tr>
                 <th></th>
                 <th>Id</th>
-                <th>Description</th>
+                <th>Planned shipment</th>
+                <th>Status</th>
+                <th></th>
                 <th></th>
             </tr>
             </thead>
             <tbody></tbody>
         </table>
 
-        <div id="pallet-dialog-form" title="Add new pallet" style="display: none">
-            <p class="validateTips">All form fields are required.</p>
+        <div id="shipment-dialog-form" title="Add new shipment" style="display: none">
 
             <form id="form">
-                <label for="description">Description</label>
-                <input type="text" name="description" id="description" />
-                <br/><br/>
-
-                <table id="packageList">
-                    <td>Package description</td>
-                    <td>Package type</td>
-                    </tr>
-                </table>
-
+                <input type="hidden" name="id" id="id" />
+                <br />
+                <label for="plannedShipment">Planned shipment</label>
+                <select name="plannedShipment" id="plannedShipment">
+                    <option value=""></option>
+                </select>
+                <br /><br />
+                <label for="pallet">Pallet</label>
+                <select name="pallet" id="pallet">
+                    <option value=""></option>
+                </select>
+                <br /><br />
+                <input type="button" name="btnAddPallet" id="btnAddPallet" value="Add pallet" />
+                <br />
                 <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
             </form>
         </div>

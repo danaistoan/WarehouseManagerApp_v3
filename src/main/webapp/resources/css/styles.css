@@ -6,26 +6,36 @@ td.details-control {
     background: url('../img/details_open.png') no-repeat center center;
     cursor: pointer;
 }
+
 tr.shown td.details-control {
     background: url('../img/details_close.png') no-repeat center center;
     cursor: pointer;
 }
+
+td.edit-control {
+    background: url('../img/edit.png') no-repeat center center;
+    cursor: pointer;
+}
+
 td.delete-control {
     background: url('../img/delete.png') no-repeat center center;
     cursor: pointer;
 }
+
 .pageTitle {
     text-align: center;
     font-size: medium;
     font-weight: bold;
     margin-bottom: 10px;
 }
+
 .childTableTitle {
     text-align: left;
     padding-left: 60px;
     font-size: small;
     font-weight: bold;
 }
+
 .addPallet {
     text-align: left;
     margin-bottom: 10px;
@@ -42,8 +52,29 @@ td.delete-control {
     display: none;
 }
 
+.messageUpdateSuccess {
+    text-align: center;
+    color: #0eff63;
+    display: none;
+}
+
 .messageDeleteSuccess {
     text-align: center;
     color: #ff0000;
     display: none;
 }
+
+#planned_shipments_table td:nth-child(1),
+#planned_shipments_table td:nth-child(3){
+    text-align : center;
+}
+
+#shipments_table td:nth-child(2),
+#shipments_table td:nth-child(4) {
+    text-align: center;
+}
+
+#pallets_table td:nth-child(2){
+    text-align : center;
+}
+
