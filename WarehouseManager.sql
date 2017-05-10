@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.6
 -- Dumped by pg_dump version 9.5.5
 
--- Started on 2017-05-02 11:39:29
+-- Started on 2017-05-10 11:25:58
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,7 +16,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2181 (class 1262 OID 16573)
+-- TOC entry 2183 (class 1262 OID 16573)
 -- Name: warehouse; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -44,7 +44,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2184 (class 0 OID 0)
+-- TOC entry 2186 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -101,7 +101,7 @@ CREATE SEQUENCE planned_shipment_id_seq
 ALTER TABLE planned_shipment_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2185 (class 0 OID 0)
+-- TOC entry 2187 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: planned_shipment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -140,7 +140,7 @@ CREATE SEQUENCE product_package_id_seq
 ALTER TABLE product_package_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2186 (class 0 OID 0)
+-- TOC entry 2188 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: product_package_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -177,7 +177,7 @@ CREATE SEQUENCE product_pallet_id_seq
 ALTER TABLE product_pallet_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2187 (class 0 OID 0)
+-- TOC entry 2189 (class 0 OID 0)
 -- Dependencies: 183
 -- Name: product_pallet_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -229,7 +229,7 @@ CREATE SEQUENCE shipment_detail_id_seq
 ALTER TABLE shipment_detail_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2188 (class 0 OID 0)
+-- TOC entry 2190 (class 0 OID 0)
 -- Dependencies: 192
 -- Name: shipment_detail_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -253,7 +253,7 @@ CREATE SEQUENCE shipment_detail_product_pallet_id_seq
 ALTER TABLE shipment_detail_product_pallet_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2189 (class 0 OID 0)
+-- TOC entry 2191 (class 0 OID 0)
 -- Dependencies: 194
 -- Name: shipment_detail_product_pallet_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -277,7 +277,7 @@ CREATE SEQUENCE shipment_detail_shipment_id_seq
 ALTER TABLE shipment_detail_shipment_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2190 (class 0 OID 0)
+-- TOC entry 2192 (class 0 OID 0)
 -- Dependencies: 193
 -- Name: shipment_detail_shipment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -301,7 +301,7 @@ CREATE SEQUENCE shipment_id_seq
 ALTER TABLE shipment_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2191 (class 0 OID 0)
+-- TOC entry 2193 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: shipment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -325,7 +325,7 @@ CREATE SEQUENCE shipment_planned_shipment_id_seq
 ALTER TABLE shipment_planned_shipment_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2192 (class 0 OID 0)
+-- TOC entry 2194 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: shipment_planned_shipment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -366,7 +366,7 @@ CREATE SEQUENCE user_id_seq
 ALTER TABLE user_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2193 (class 0 OID 0)
+-- TOC entry 2195 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -447,26 +447,38 @@ ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regcl
 
 
 --
--- TOC entry 2169 (class 0 OID 41173)
+-- TOC entry 2171 (class 0 OID 41173)
 -- Dependencies: 188
 -- Data for Name: planned_shipment; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY planned_shipment (id, customer_name, quantity) FROM stdin;
+3	Kandia	4
+5	D-Toys	2
+7	Toepfer	3
+9	Usborne	2
+10	Tech Gap	6
+12	Pinum	3
+13	Kandia	2
+14	Pinum	3
+15	V-Tech	3
+11	Gama	4
+6	B-TwinTest	2
+8	V-Tech	3
 \.
 
 
 --
--- TOC entry 2194 (class 0 OID 0)
+-- TOC entry 2196 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: planned_shipment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('planned_shipment_id_seq', 1, false);
+SELECT pg_catalog.setval('planned_shipment_id_seq', 15, true);
 
 
 --
--- TOC entry 2163 (class 0 OID 16576)
+-- TOC entry 2165 (class 0 OID 16576)
 -- Dependencies: 182
 -- Data for Name: product_package; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -481,8 +493,20 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 233	Colouring Books	Books	\N
 328			\N
 124	Wooden toys for 3-5 years	Toys	\N
+102	Puzzle for 3-5 years	Toys	51
+103	Puzzle for babies	Toys	51
+106	Puzzle for 3-5 years	Toys	53
+107	Puzzle for babies	Toys	53
+140	Food for children	Food	70
+141	Cereals	Food	70
+130	Puzzle for 3-5 years	Toys	65
+131	Puzzle for babies	Toys	65
+104	Wooden toys for 3-5 years	Toys	52
+105	Wooden toys for babies	Toys	52
+116	Wooden toys for 3-5 years	Toys	58
 26	Wooden toys for 3-5 years	Toys	\N
 27	Wooden toys for babies	Toys	\N
+122	Puzzle for 3-5 years	Toys	61
 28	Wooden toys for 3-5 years	Toys	\N
 29	Wooden toys for babies	Toys	\N
 30	Puzzle for 3-5 years	Toys	\N
@@ -491,30 +515,10 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 33	Wooden toys for babies	Toys	\N
 34	Puzzle for 3-5 years	Toys	\N
 35	Puzzle for babies	Toys	\N
-102	Puzzle for 3-5 years	Toys	51
-103	Puzzle for babies	Toys	51
-104	Wooden toys for 3-5 years	Toys	52
-105	Wooden toys for babies	Toys	52
-106	Puzzle for 3-5 years	Toys	53
-107	Puzzle for babies	Toys	53
-110	Puzzle for 3-5 years	Toys	55
-111	Puzzle for babies	Toys	55
-114	Puzzle for 3-5 years	Toys	57
-115	Puzzle for babies	Toys	57
-116	Wooden toys for 3-5 years	Toys	58
-117	Wooden toys for babies	Toys	58
-122	Puzzle for 3-5 years	Toys	61
-123	Puzzle for babies	Toys	61
-130	Puzzle for 3-5 years	Toys	65
-131	Puzzle for babies	Toys	65
-138	Puzzle for 3-5 years	Toys	69
-139	Puzzle for babies	Toys	69
 36	Wooden toys for 3-5 years	Toys	\N
 37	Wooden toys for babies	Toys	\N
 38	Puzzle for 3-5 years	Toys	\N
 39	Puzzle for babies	Toys	\N
-140	Food for children	Food	70
-141	Cereals	Food	70
 44	Wooden toys for 3-5 years	Toys	\N
 45	Wooden toys for babies	Toys	\N
 46	Puzzle for 3-5 years	Toys	\N
@@ -595,40 +599,17 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 101	Wooden toys for babies	Toys	\N
 134	Puzzle for 3-5 years	Toys	\N
 135	Puzzle for babies	Toys	\N
+123	Puzzle for babies	Toys	61
+138	Puzzle for 3-5 years	Toys	69
+139	Puzzle for babies	Toys	69
 40	Wooden toys for 3-5 years	Toys	\N
 41	Wooden toys for babies	Toys	\N
 42	Puzzle for 3-5 years	Toys	\N
 43	Puzzle for babies	Toys	\N
 146	Milk for babies	Food	\N
 147	Cereals for babies	Food	\N
-150	Milk for babies	Food	75
-151	Cereals for babies	Food	75
-152	Food for children	Food	76
-153	Cereals	Food	76
-156	Food for children	Food	78
-157	Cereals	Food	78
-158	Milk for babies	Food	79
-159	Cereals for babies	Food	79
-160	Food for children	Food	80
-161	Cereals	Food	80
-162	Milk for babies	Food	81
-163	Cereals for babies	Food	81
-164	Food for children	Food	82
-165	Cereals	Food	82
-170	Milk for babies	Food	85
-171	Cereals for babies	Food	85
-172	Food for children	Food	86
-173	Cereals	Food	86
-180	Food for children	Food	90
-181	Cereals	Food	90
 186	D1	T1	\N
 187	D1	T1	\N
-190	Lego for 1 to 3 years	Lego Duplo	95
-191	Lego for 3 to 7 years	Lego City	95
-192	Lots	Kittens	96
-193	Lots	Chocolate	96
-200	Lego for 4 to 9 years	Lego City	100
-201	Lego for 9 years +	Lego Technic	100
 196	P4	T4	\N
 197	D5	T5	\N
 188	D1	T1	\N
@@ -657,19 +638,12 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 207	T2	P2	\N
 204	D1	P1	\N
 205	D2	P2	\N
-218	Lego for 1 to 3 years	Lego Duplo	109
-219	Lego for girls 3 to 7 years	Lego Friends	109
 194	D3	P3	\N
 195	D4	P4	\N
-220	Wooden bikes	Bikes for toddlers	110
-221	For 4+ years	Bikes for kids	110
+164	Food for children	Food	82
 241	Milk chocolate	Chocolate	123
-242	Milk chocolate	Chocolate	124
-243	Milk chocolate	Chocolate	124
-228	Books for children	Books	117
-229	Colouring Books	Books	117
-230	Books for children	Books	118
-231	Colouring Books	Books	118
+172	Food for children	Food	86
+173	Cereals	Food	86
 184	Pack1	Type1	\N
 185	Pack2	Type2	\N
 276	Milk Chocolate	Choco	\N
@@ -686,7 +660,6 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 217	Lego for 9 years +	Lego Technic	\N
 234	Wooden bikes	Bikes for toddlers	\N
 235	Bikes for children	Mountain bikes	\N
-240	Milk chocolate	Chocolate	123
 250	d1	t1	\N
 251	d1	t1	\N
 252	d1	t1	\N
@@ -738,6 +711,31 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 179	Cereals for babies	Food	\N
 176	Food for children	Food	\N
 177	Cereals	Food	\N
+156	Food for children	Food	\N
+180	Food for children	Food	90
+181	Cereals	Food	90
+158	Milk for babies	Food	79
+159	Cereals for babies	Food	79
+170	Milk for babies	Food	85
+171	Cereals for babies	Food	85
+160	Food for children	Food	80
+161	Cereals	Food	80
+240	Milk chocolate	Chocolate	123
+242	Milk chocolate	Chocolate	124
+243	Milk chocolate	Chocolate	124
+228	Books for children	Books	117
+229	Colouring Books	Books	117
+230	Books for children	Books	118
+231	Colouring Books	Books	118
+200	Lego for 4 to 9 years	Lego City	100
+201	Lego for 9 years +	Lego Technic	100
+218	Lego for 1 to 3 years	Lego Duplo	109
+219	Lego for girls 3 to 7 years	Lego Friends	109
+220	Wooden bikes	Bikes for toddlers	110
+221	For 4+ years	Bikes for kids	110
+190	Lego for 1 to 3 years	Lego Duplo	95
+191	Lego for 3 to 7 years	Lego City	95
+192	Lots	Kittens	96
 285	gfggd	gfdgd	\N
 286	gfdg	dfgd	\N
 283	fgfg	ssf	\N
@@ -748,8 +746,10 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 290			\N
 291			\N
 292			\N
+162	Milk for babies	Food	81
 293			\N
 294			\N
+163	Cereals for babies	Food	81
 334			\N
 335			\N
 298			\N
@@ -771,8 +771,10 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 306			\N
 308			\N
 309			\N
+382	sfdaas	asdfdsa	\N
 310			\N
 311		d	\N
+383	asdfas	asdfsda	\N
 312			\N
 341			\N
 313	sg		\N
@@ -786,139 +788,203 @@ COPY product_package (id, description, type, product_pallet_id) FROM stdin;
 318			\N
 342	sad	sdsa	\N
 343	asa	sds	\N
-344	sdfd	fghgf	193
 321			\N
 320			\N
 322	c	s	\N
 324			\N
 323			\N
+165	Cereals	Food	82
 325			\N
 345	gfddf	fgfhg	\N
 346			\N
+352	Mountain bikes	Bikes	199
 347	dhggf	fghg	\N
 348			\N
-350	Dark chocolate	Choco	197
 349	faas	asfds	\N
 125	Wooden toys for babies	Toys	\N
-351	Choco1	Dark choco	198
-352	Mountain bikes	Bikes	199
-355	LegoPack	LegoType	202
-356	ChocoPack	ChocoType	203
+386	Bikes for babies	Bikes2	226
+384	Wooden bikes	Bikes1	225
+385			225
+117	Wooden toys for babies	Toys	58
 357	Pack1	Type1	\N
 354	Pack2	Type2	\N
 353	NewPack	PackType	\N
-358	BikesPack	BikesType	205
 360	Pack3	Type3	\N
 359	PackTest	TypeTest	\N
+193	Lots	Chocolate	96
 362	sfdg	asdfs	\N
 363	sfdasd	asds	\N
 364			\N
 361	LegoPack	LegoType	\N
+150	Milk for babies	Food	75
 365	fgfdg	fhfhgh	\N
+151	Cereals for babies	Food	75
+350	Dark chocolate	Choco	197
 372	hhh	hhhhhh	\N
 371	fdf	gdfd	\N
-373	NewPack	NewType	218
+351	Choco1	Dark choco	198
+373	NewPack	NewType	\N
+356	ChocoPack	ChocoType	203
+344	sdfd	fghgf	193
+157	Cereals	Food	\N
+152	Food for children	Food	\N
+153	Cereals	Food	\N
+355	LegoPack	LegoType	202
+110	Puzzle for 3-5 years	Toys	55
+111	Puzzle for babies	Toys	55
+114	Puzzle for 3-5 years	Toys	57
+115	Puzzle for babies	Toys	57
+358	BikesPack	BikesType	205
 374	LegoDuplo	Lego	219
-\.
-
-
---
--- TOC entry 2195 (class 0 OID 0)
--- Dependencies: 181
--- Name: product_package_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('product_package_id_seq', 374, true);
-
-
---
--- TOC entry 2165 (class 0 OID 16587)
--- Dependencies: 184
--- Data for Name: product_pallet; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY product_pallet (id, description) FROM stdin;
-117	Books
-118	Books
-123	Chocolate
-124	Chocolate
-193	Lego
-197	Choco
-198	Chocolate
-199	Bikes
-202	Lego
-203	Chocolate
-205	Bikes
-51	Puzzle
-52	Wooden toys
-53	Puzzle
-55	Puzzle
-57	Puzzle
-58	Wooden toys
-61	Puzzle
-65	Puzzle
-69	Puzzle
-70	Food
-218	NewPallet
-219	Lego
-75	Baby-Food
-76	Food
-78	Food
-79	Baby-Food
-80	Food
-81	Baby-Food
-82	Food
-85	Baby-Food
-86	Food
-90	Food
-95	Lego
-96	Di's Pallet
-100	Lego
-109	Lego
-110	Bikes
-\.
-
-
---
--- TOC entry 2196 (class 0 OID 0)
--- Dependencies: 183
--- Name: product_pallet_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('product_pallet_id_seq', 219, true);
-
-
---
--- TOC entry 2172 (class 0 OID 41183)
--- Dependencies: 191
--- Data for Name: shipment; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY shipment (id, planned_shipment_id, completed) FROM stdin;
-\.
-
-
---
--- TOC entry 2176 (class 0 OID 41201)
--- Dependencies: 195
--- Data for Name: shipment_detail; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY shipment_detail (id, shipment_id, product_pallet_id) FROM stdin;
+375	Lego Technic	Lego1	220
+376	Lego City	Lego2	220
+381	Pack1	Type1	223
+377	Wooden doors	Interior doors	221
+378	Synthetic doors	Interior doors	221
+379	Metal doors	Exterior doors	221
+380	Pack1	Type1	222
 \.
 
 
 --
 -- TOC entry 2197 (class 0 OID 0)
--- Dependencies: 192
--- Name: shipment_detail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 181
+-- Name: product_package_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('shipment_detail_id_seq', 1, false);
+SELECT pg_catalog.setval('product_package_id_seq', 386, true);
+
+
+--
+-- TOC entry 2167 (class 0 OID 16587)
+-- Dependencies: 184
+-- Data for Name: product_pallet; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY product_pallet (id, description) FROM stdin;
+223	Exterior doors
+85	Baby-Food
+80	Food
+81	Baby-Food
+221	Doors
+222	Interior doors
+226	Wooden bikes
+225	Bikes
+51	Puzzle
+52	Wooden toys
+58	Wooden toys
+70	Food
+82	Food
+100	Lego
+109	Lego
+199	Bikes
+53	Puzzle
+110	Bikes
+95	Lego
+96	Di's Pallet
+75	Baby-Food
+90	Food
+197	Choco
+198	Chocolate
+203	Chocolate
+86	Food
+193	Lego
+117	Books
+118	Books
+202	Lego
+55	Puzzle
+57	Puzzle
+79	Baby-Food
+123	Chocolate
+124	Chocolate
+65	Puzzle
+205	Bikes
+219	Lego
+220	Lego
+61	Puzzle
+69	Puzzle
+\.
 
 
 --
 -- TOC entry 2198 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: product_pallet_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('product_pallet_id_seq', 226, true);
+
+
+--
+-- TOC entry 2174 (class 0 OID 41183)
+-- Dependencies: 191
+-- Data for Name: shipment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shipment (id, planned_shipment_id, completed) FROM stdin;
+1	3	t
+3	5	t
+23	9	t
+29	6	t
+54	14	f
+55	15	f
+56	8	t
+44	7	t
+53	13	t
+22	10	f
+\.
+
+
+--
+-- TOC entry 2178 (class 0 OID 41201)
+-- Dependencies: 195
+-- Data for Name: shipment_detail; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shipment_detail (id, shipment_id, product_pallet_id) FROM stdin;
+145	56	51
+146	56	52
+64	44	85
+65	44	80
+66	44	81
+147	56	58
+89	53	70
+90	53	82
+94	22	100
+95	22	109
+96	22	199
+97	22	53
+121	1	90
+122	1	197
+123	1	198
+124	1	203
+125	3	86
+126	3	193
+133	23	123
+134	23	124
+135	29	65
+136	29	205
+137	29	219
+138	29	220
+139	29	61
+140	29	69
+142	54	221
+143	54	222
+144	55	225
+\.
+
+
+--
+-- TOC entry 2199 (class 0 OID 0)
+-- Dependencies: 192
+-- Name: shipment_detail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shipment_detail_id_seq', 147, true);
+
+
+--
+-- TOC entry 2200 (class 0 OID 0)
 -- Dependencies: 194
 -- Name: shipment_detail_product_pallet_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -927,7 +993,7 @@ SELECT pg_catalog.setval('shipment_detail_product_pallet_id_seq', 1, false);
 
 
 --
--- TOC entry 2199 (class 0 OID 0)
+-- TOC entry 2201 (class 0 OID 0)
 -- Dependencies: 193
 -- Name: shipment_detail_shipment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -936,16 +1002,16 @@ SELECT pg_catalog.setval('shipment_detail_shipment_id_seq', 1, false);
 
 
 --
--- TOC entry 2200 (class 0 OID 0)
+-- TOC entry 2202 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: shipment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('shipment_id_seq', 1, false);
+SELECT pg_catalog.setval('shipment_id_seq', 56, true);
 
 
 --
--- TOC entry 2201 (class 0 OID 0)
+-- TOC entry 2203 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: shipment_planned_shipment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -954,7 +1020,7 @@ SELECT pg_catalog.setval('shipment_planned_shipment_id_seq', 1, false);
 
 
 --
--- TOC entry 2167 (class 0 OID 32983)
+-- TOC entry 2169 (class 0 OID 32983)
 -- Dependencies: 186
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -967,7 +1033,7 @@ COPY "user" (id, username, password, email, user_type) FROM stdin;
 
 
 --
--- TOC entry 2202 (class 0 OID 0)
+-- TOC entry 2204 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1030,7 +1096,16 @@ ALTER TABLE ONLY shipment
 
 
 --
--- TOC entry 2045 (class 2606 OID 41219)
+-- TOC entry 2045 (class 2606 OID 41415)
+-- Name: unique_pallet; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shipment_detail
+    ADD CONSTRAINT unique_pallet UNIQUE (product_pallet_id);
+
+
+--
+-- TOC entry 2047 (class 2606 OID 41219)
 -- Name: planned_shipment_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1039,7 +1114,7 @@ ALTER TABLE ONLY shipment
 
 
 --
--- TOC entry 2047 (class 2606 OID 41214)
+-- TOC entry 2049 (class 2606 OID 41214)
 -- Name: product_pallet_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1048,7 +1123,7 @@ ALTER TABLE ONLY shipment_detail
 
 
 --
--- TOC entry 2044 (class 2606 OID 16603)
+-- TOC entry 2046 (class 2606 OID 16603)
 -- Name: product_pallet_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1057,7 +1132,7 @@ ALTER TABLE ONLY product_package
 
 
 --
--- TOC entry 2046 (class 2606 OID 41209)
+-- TOC entry 2048 (class 2606 OID 41209)
 -- Name: shipment_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1066,7 +1141,7 @@ ALTER TABLE ONLY shipment_detail
 
 
 --
--- TOC entry 2183 (class 0 OID 0)
+-- TOC entry 2185 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -1077,7 +1152,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2017-05-02 11:39:30
+-- Completed on 2017-05-10 11:25:58
 
 --
 -- PostgreSQL database dump complete
