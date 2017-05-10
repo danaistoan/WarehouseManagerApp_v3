@@ -72,12 +72,11 @@
                     <option value=""></option>
                 </select>
                 <br /><br />
-                <label for="pallet">Pallet</label>
-                <select name="pallet" id="pallet">
-                    <option value=""></option>
-                </select>
-                <br /><br />
-                <input type="button" name="btnAddPallet" id="btnAddPallet" value="Add pallet" />
+
+                <div id="pallet-container"></div>
+                <div id="messageDuplicatePallet" class="messageDuplicatePallet">Duplicate pallet selected. Please select another pallet</div>
+                <div id="messageAddLimit" class="messageAddLimit">You have reached the maximum number of pallets. Press Save or Cancel</div>
+                <%--<input type="button" name="btnAddPallet" id="btnAddPallet" value="Add pallet" />--%>
                 <br />
                 <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
             </form>

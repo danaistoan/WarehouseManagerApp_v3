@@ -5,16 +5,17 @@ package com.tgs.warehouse.controller;
  */
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.tgs.warehouse.dao.ShipmentDAO;
 import com.tgs.warehouse.entities.PlannedShipment;
 import com.tgs.warehouse.entities.Shipment;
+import com.tgs.warehouse.services.LogisticUnitService;
+import com.tgs.warehouse.services.PlannedShipmentService;
+import com.tgs.warehouse.services.ShipmentService;
 import com.tgs.warehouse.services.UserService;
-import com.tgs.warehouse.dao.LogisticUnitDAO;
 import com.tgs.warehouse.entities.ProductPallet;
 import com.tgs.warehouse.entities.User;
 import com.tgs.warehouse.util.DataTablesParamUtil;
 import com.tgs.warehouse.util.JQueryDataTableParamModel;
+import com.tgs.warehouse.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,13 +36,16 @@ import java.util.Map;
 public class WarehouseController {
 
     @Autowired
-    private LogisticUnitDAO logisticUnit;
-
-    @Autowired
-    private ShipmentDAO shipmentDAO;
-
-    @Autowired
     UserService userService;
+
+    @Autowired
+    LogisticUnitService logisticUnitService;
+
+    @Autowired
+    ShipmentService shipmentService;
+
+    @Autowired
+    PlannedShipmentService plannedShipmentService;
 
     public WarehouseController(){
         System.out.println("In WarehouseController");
@@ -61,22 +66,6 @@ public class WarehouseController {
         System.out.println("In MAV Login");
         return mv;
     }
-
-    /*
-    @RequestMapping(value = "getPallets", method = RequestMethod.GET)
-    public ModelAndView navigateToPallets(){
-        ModelAndView mv = new ModelAndView("showAllPallets");
-        System.out.println("Navigating to Pallets");
-        return mv;
-    }
-
-    @RequestMapping(value = "getShipments", method = RequestMethod.GET)
-    public ModelAndView navigateToShipments(){
-        ModelAndView mv = new ModelAndView("showShipments");
-        System.out.println("Navigating to Shipments");
-        return mv;
-    }
-    */
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ModelAndView processLogin(HttpServletRequest request){
@@ -118,15 +107,15 @@ public class WarehouseController {
     //Get pallets for DT
     @RequestMapping(value = "getAllPallets", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public String getAllPallets(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String getAllPallets(HttpServletRequest request) throws IOException {
         System.out.println("In getAllPallets");
 
         JQueryDataTableParamModel param = DataTablesParamUtil.getParam(request);
 
-        List<ProductPallet> allPallets = logisticUnit.getAllPallets();
+        List<ProductPallet> allPallets = logisticUnitService.getAllPallets();
 
         if(param.searchValue != null && param.searchValue != ""){
-            return searchPalletByDescriptionJson(param, allPallets, logisticUnit);
+            return searchPalletByDescriptionJson(param, allPallets, logisticUnitService);
         } else {
             return getAllPalletsJson(param, allPallets);
         }
@@ -138,7 +127,7 @@ public class WarehouseController {
     public String getPallets() throws IOException{
         System.out.println("In getPallets for Shipment creation");
 
-        List<ProductPallet> productPalletList = logisticUnit.getAllPallets();
+        List<ProductPallet> productPalletList = logisticUnitService.getPalletsWithoutShipment();
 
         return getAllPalletsJson(null, productPalletList);
     }
@@ -157,7 +146,7 @@ public class WarehouseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logisticUnit.insertProductPallet(pallet);
+        logisticUnitService.saveProductPallet(pallet);
         System.out.println("New Pallet added with Spring Controller");
         ModelAndView mav = new ModelAndView("showAllPallets");
         return mav;
@@ -167,7 +156,7 @@ public class WarehouseController {
     public ModelAndView deletePallet(HttpServletRequest request){
 
         Long palletId = Long.parseLong(request.getParameter("palletId"));
-        boolean palletDeleted = logisticUnit.deleteProductPallet(palletId);
+        boolean palletDeleted = logisticUnitService.deleteProductPallet(palletId);
         ModelAndView mav = new ModelAndView("showAllPallets");
 
         if (palletDeleted) {
@@ -187,9 +176,9 @@ public class WarehouseController {
         return mav;
     }
 
-    private String searchPalletByDescriptionJson(JQueryDataTableParamModel param, List<ProductPallet> allPallets, LogisticUnitDAO logisticUnit) throws IOException {
+    private String searchPalletByDescriptionJson(JQueryDataTableParamModel param, List<ProductPallet> allPallets, LogisticUnitService logisticUnitService) throws IOException {
 
-        List<ProductPallet> foundPalletList = logisticUnit.search(param.searchValue);
+        List<ProductPallet> foundPalletList = logisticUnitService.search(param.searchValue);
 
         int foundPalletsSize = foundPalletList.size();
         int iTotalRecords = allPallets.size();
@@ -222,29 +211,15 @@ public class WarehouseController {
         palletsDataTableMap.put("iTotalDisplayRecords", iTotalDisplayRecords);
         palletsDataTableMap.put("palletList", resultPallets);
 
-        String palletJson = getObjectToJson(palletsDataTableMap);
+        String palletJson = JsonUtil.getObjectToJson(palletsDataTableMap);
         return palletJson;
     }
 
     private String getCurrentUserJson(HttpServletRequest request) {
 
         User userAuthenticated = ((User) request.getSession().getAttribute("user"));
-        String userJson = getObjectToJson(userAuthenticated);
+        String userJson = JsonUtil.getObjectToJson(userAuthenticated);
         return userJson;
-    }
-
-    private String getObjectToJson(Object object){
-
-        String objectAsString = null;
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        try {
-            objectAsString = mapper.writeValueAsString(object);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return objectAsString;
     }
 
     @RequestMapping(value = "showPlannedShipments", method = RequestMethod.GET)
@@ -261,10 +236,10 @@ public class WarehouseController {
 
         JQueryDataTableParamModel param = DataTablesParamUtil.getParam(request);
 
-        List<PlannedShipment> plannedShipments = shipmentDAO.getAllPlannedShipments();
+        List<PlannedShipment> plannedShipments = plannedShipmentService.getAllPlannedShipments();
 
         if(param.searchValue != null && param.searchValue != ""){
-            return searchPlannedShipmentsJson(param, plannedShipments, shipmentDAO);
+            return searchPlannedShipmentsJson(param, plannedShipments, shipmentService);
         } else {
             return getAllPlShipmentsJson(param, plannedShipments);
         }
@@ -275,14 +250,14 @@ public class WarehouseController {
     public String getPlannedShipments() throws IOException {
         System.out.println("In getPlannedShipments");
 
-        List<PlannedShipment> plannedShipments = shipmentDAO.getAllPlannedShipments();
+        List<PlannedShipment> plannedShipments = plannedShipmentService.getPlannedShipmentsWithoutShipment();
 
         return getAllPlShipmentsJson(null, plannedShipments);
     }
 
-    private String searchPlannedShipmentsJson(JQueryDataTableParamModel param, List<PlannedShipment> allShipments, ShipmentDAO shipmentDAO) throws IOException {
+    private String searchPlannedShipmentsJson(JQueryDataTableParamModel param, List<PlannedShipment> allShipments, ShipmentService shipmentService) throws IOException {
 
-        List<PlannedShipment> foundPlannedShipmentList = shipmentDAO.searchPlannedShipments(param.searchValue);
+        List<PlannedShipment> foundPlannedShipmentList = plannedShipmentService.searchPlannedShipments(param.searchValue);
 
         int foundShipmentsSize = foundPlannedShipmentList.size();
         int iTotalRecords = allShipments.size();
@@ -315,7 +290,7 @@ public class WarehouseController {
         plShipmentsDataTableMap.put("iTotalDisplayRecords", iTotalDisplayRecords);
         plShipmentsDataTableMap.put("plannedShipmentList", plannedShipmentList);
 
-        String plShipmentJson = getObjectToJson(plShipmentsDataTableMap);
+        String plShipmentJson = JsonUtil.getObjectToJson(plShipmentsDataTableMap);
         return plShipmentJson;
     }
 
@@ -333,7 +308,7 @@ public class WarehouseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        shipmentDAO.insertPlannedShipment(plannedShipment);
+        plannedShipmentService.savePlannedShipment(plannedShipment);
         System.out.println("New Planned Shipment added with Spring Controller");
         ModelAndView mv = new ModelAndView("showPlannedShipments");
         return mv;
@@ -343,7 +318,7 @@ public class WarehouseController {
     public ModelAndView deletePlannedShipment(HttpServletRequest request){
 
         Long plShipmentId = Long.parseLong(request.getParameter("plShipmentId"));
-        boolean plShipmentDeleted = shipmentDAO.deletePlannedShipment(plShipmentId);
+        boolean plShipmentDeleted = plannedShipmentService.deletePlannedShipment(plShipmentId);
         ModelAndView mv = new ModelAndView("showPlannedShipments");
 
         if (plShipmentDeleted) {
@@ -368,7 +343,7 @@ public class WarehouseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        shipmentDAO.insertPlannedShipment(plannedShipment);
+        plannedShipmentService.savePlannedShipment(plannedShipment);
         System.out.println("Planned Shipment updated with Spring Controller");
         ModelAndView mv = new ModelAndView("showPlannedShipments");
         return mv;
@@ -383,23 +358,23 @@ public class WarehouseController {
 
     @RequestMapping(value = "getAllShipments", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public String getAllShipments(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String getAllShipments(HttpServletRequest request) throws IOException {
         System.out.println("In getAllShipments");
 
         JQueryDataTableParamModel param = DataTablesParamUtil.getParam(request);
 
-        List<Shipment> shipmentList = shipmentDAO.getAllShipments();
+        List<Shipment> shipmentList = shipmentService.getAllShipments();
 
         if(param.searchValue != null && param.searchValue != ""){
-            return searchShipmentsJson(param, shipmentList, shipmentDAO);
+            return searchShipmentsJson(param, shipmentList, shipmentService);
         } else {
             return getAllShipmentsJson(param, shipmentList);
         }
     }
 
-    private String searchShipmentsJson(JQueryDataTableParamModel param, List<Shipment> allShipments, ShipmentDAO shipmentDAO) throws IOException {
+    private String searchShipmentsJson(JQueryDataTableParamModel param, List<Shipment> allShipments, ShipmentService shipmentService) throws IOException {
 
-        List<Shipment> foundShipmentList = shipmentDAO.searchShipments(param.searchValue);
+        List<Shipment> foundShipmentList = shipmentService.searchShipments(param.searchValue);
 
         int foundShipmentsSize = foundShipmentList.size();
         int iTotalRecords = allShipments.size();
@@ -427,35 +402,15 @@ public class WarehouseController {
         shipmentsDataTableMap.put("iTotalDisplayRecords", iTotalDisplayRecords);
         shipmentsDataTableMap.put("shipmentList", shipmentList);
 
-        String shipmentJson = getObjectToJson(shipmentsDataTableMap);
+        String shipmentJson = JsonUtil.getObjectToJson(shipmentsDataTableMap);
         return shipmentJson;
-    }
-
-    @RequestMapping(value = "addShipment", method = RequestMethod.POST)
-    public ModelAndView addShipment(HttpServletRequest request){
-
-        ObjectMapper mapper = new ObjectMapper();
-        Shipment shipment = new Shipment();
-
-        try {
-            String jsonShipment = request.getParameter("shipmentJson");
-            shipment = mapper.readValue(jsonShipment, Shipment.class);
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        shipmentDAO.insertShipment(shipment);
-        System.out.println("New Shipment added with Spring Controller");
-        ModelAndView mv = new ModelAndView("showShipments");
-        return mv;
     }
 
     @RequestMapping(value = "deleteShipment", method = RequestMethod.POST)
     public ModelAndView deleteShipment(HttpServletRequest request){
 
         Long shipmentId = Long.parseLong(request.getParameter("shipmentId"));
-        boolean shipmentDeleted = shipmentDAO.deleteShipment(shipmentId);
+        boolean shipmentDeleted = shipmentService.deleteShipment(shipmentId);
         ModelAndView mv = new ModelAndView("showShipments");
 
         if (shipmentDeleted) {
@@ -466,4 +421,62 @@ public class WarehouseController {
         return mv;
     }
 
+    @RequestMapping(value = "addShipment", method = RequestMethod.POST)
+    public ModelAndView addShipment(HttpServletRequest request){
+
+        Long plShipmentId = Long.parseLong(request.getParameter("plannedShipmentId"));
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayList palletIdList = new ArrayList();
+        try {
+            String jsonIdArray = request.getParameter("palletIdListJson");
+            palletIdList = mapper.readValue(jsonIdArray, ArrayList.class);
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<ProductPallet> palletList = new ArrayList<>();
+        ProductPallet palletToBeShiped;
+
+        for(Object ppId : palletIdList){
+            Long palletId = Long.parseLong(ppId.toString());
+            palletToBeShiped = logisticUnitService.getProductPalletById(palletId);
+            palletList.add(palletToBeShiped);
+        }
+
+        shipmentService.saveShipment(plShipmentId, palletList);
+        ModelAndView mv = new ModelAndView("showShipments");
+
+        return mv;
+    }
+
+    @RequestMapping(value = "updateShipment", method = RequestMethod.POST)
+    public ModelAndView updateShipment(HttpServletRequest request){
+
+        Long shipmentId = Long.parseLong(request.getParameter("shipmentId"));
+        Long plShipmentId = Long.parseLong(request.getParameter("plannedShipmentId"));
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayList palletIdList = new ArrayList();
+        try {
+            String jsonIdArray = request.getParameter("palletIdListJson");
+            palletIdList = mapper.readValue(jsonIdArray, ArrayList.class);
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<ProductPallet> palletList = new ArrayList<>();
+        ProductPallet palletToBeShiped;
+
+        for(Object ppId : palletIdList){
+            Long palletId = Long.parseLong(ppId.toString());
+            palletToBeShiped = logisticUnitService.getProductPalletById(palletId);
+            palletList.add(palletToBeShiped);
+        }
+
+        shipmentService.updateShipment(shipmentId, plShipmentId, palletList);
+        ModelAndView mv = new ModelAndView("showShipments");
+
+        return mv;
+    }
 }

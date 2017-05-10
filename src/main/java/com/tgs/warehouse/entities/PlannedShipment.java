@@ -24,6 +24,13 @@ public class PlannedShipment implements Serializable{
     @Column(name="quantity", nullable = false)
     private int quantity;
 
+    public PlannedShipment(){
+    }
+
+    public PlannedShipment(Long plannedShipmentId){
+        this.id = plannedShipmentId;
+    }
+
     public Long getId() {
         return id;
     }

@@ -64,6 +64,18 @@ td.delete-control {
     display: none;
 }
 
+.messageAddLimit {
+    text-align: center;
+    color: #ff0000;
+    display: none;
+}
+
+.messageDuplicatePallet{
+    text-align: center;
+    color: #ff0000;
+    display: none;
+}
+
 #planned_shipments_table td:nth-child(1),
 #planned_shipments_table td:nth-child(3){
     text-align : center;

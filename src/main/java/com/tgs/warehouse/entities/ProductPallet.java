@@ -6,18 +6,13 @@ import java.util.List;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="product_pallet")
+//@SecondaryTable(
+//		name="shipment_detail",
+//		pkJoinColumns=@PrimaryKeyJoinColumn(name="product_pallet_id"))
 public class ProductPallet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -35,6 +30,9 @@ public class ProductPallet implements Serializable{
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@JoinColumn(name = "product_pallet_id", referencedColumnName="id") // id e ala din pallet
 	private List<ProductPackage> packages;
+
+//    @Column(table="shipment_detail", name="shipment_id")
+//    private Long shipmentId;
 	
 	public ProductPallet(){
 	}

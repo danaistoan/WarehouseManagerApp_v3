@@ -1,6 +1,5 @@
 package com.tgs.warehouse.dao;
 
-import com.tgs.warehouse.entities.PlannedShipment;
 import com.tgs.warehouse.entities.Shipment;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,55 +27,8 @@ public class ShipmentDAO {
     }
 
     @Transactional
-    public void insertPlannedShipment(PlannedShipment plannedShipment) {
+    public List<Shipment> searchShipments(Long planned_shipment_id) {
 
-        Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(plannedShipment);
-        //return plannedShipment;
-    }
-
-    @Transactional
-    public boolean deletePlannedShipment(Long shipmentId) {
-
-        Session session = sessionFactory.getCurrentSession();
-        PlannedShipment plannedShipment = session.get(PlannedShipment.class, shipmentId);
-        session.delete(plannedShipment);
-        System.out.println("Pallet with " + plannedShipment + " deleted");
-
-        return true;
-    }
-
-    @Transactional
-    public List<PlannedShipment> searchPlannedShipments(String customerName) {
-
-        Session session = sessionFactory.getCurrentSession();
-        String hql = "select ps from PlannedShipment ps where lower(ps.customerName)"
-                + " like lower(:customerName) order by ps.id";
-        TypedQuery<PlannedShipment> query = session.createQuery(hql, PlannedShipment.class);
-        query.setParameter("customerName", "%" + customerName + "%");
-        List<PlannedShipment> plannedShipments = query.getResultList();
-        System.out.println("SearchPlanneShipments with Hibernate executed");
-
-        return plannedShipments;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Transactional
-    public List<PlannedShipment> getAllPlannedShipments() {
-
-        Session session = sessionFactory.getCurrentSession();
-        String hql = "from PlannedShipment ps order by ps.id";
-        TypedQuery<PlannedShipment> query = session.createQuery(hql);
-        List<PlannedShipment> plannedShipments = query.getResultList();
-        System.out.println("GetAllPlannedShipments with Hibernate executed");
-
-        return plannedShipments;
-    }
-
-    @Transactional
-    public List<Shipment> searchShipments(String searchValue) {
-
-        Long planned_shipment_id = Long.parseLong(searchValue);
         Session session = sessionFactory.getCurrentSession();
         String hql = "select s from Shipment s inner join s.planned_shipment_id ps where s.planned_shipment_id=?";
         TypedQuery<Shipment> query = session.createQuery(hql, Shipment.class);
@@ -100,22 +52,41 @@ public class ShipmentDAO {
         return shipmentList;
     }
 
-    //Shipment saving has to save in 2 tables: shipment(planned_shipment_id, completed) & shipment_detail(shipment_id, PP_id)
+    // Saving the shipment inserts data in 2 tables: shipment(planned_shipment_id, completed) & shipment_detail(shipment_id, PP_id)
     @Transactional
     public void insertShipment(Shipment shipment) {
 
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(shipment);
+        System.out.println("InsertShipment with Hibernate executed");
     }
 
+    // Deletes from 2 tables: shipment & shipment_detail
     @Transactional
     public boolean deleteShipment(Long shipmentId) {
 
         Session session = sessionFactory.getCurrentSession();
-        PlannedShipment plannedShipment = session.get(PlannedShipment.class, shipmentId);
-        session.delete(plannedShipment);
-        System.out.println("Pallet with " + plannedShipment + " deleted");
+        Shipment shipment = session.get(Shipment.class, shipmentId);
+        session.delete(shipment);
+        System.out.println("Pallet with " + shipment + " deleted");
 
         return true;
+    }
+
+    @Transactional
+    public void updateShipment(Shipment shipment) {
+
+        Session session = sessionFactory.getCurrentSession();
+        session.update(shipment);
+        System.out.println("Update Shipment with Hibernate executed");
+    }
+
+    @Transactional
+    public Shipment getShipmentById(Long shipmentId) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Shipment shipment = session.get(Shipment.class, shipmentId);
+
+        return shipment;
     }
 }

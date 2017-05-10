@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
 import com.tgs.warehouse.entities.ProductPallet;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,4 +70,28 @@ public class LogisticUnitDAO {
 
 		return palletList;
 	}
+
+	@Transactional
+	public ProductPallet getProductPalletById(Long productPalletId) {
+
+		Session session = sessionFactory.getCurrentSession();
+		ProductPallet productPallet = session.get(ProductPallet.class, productPalletId);
+
+		return productPallet;
+	}
+
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public List<ProductPallet> getPalletsWithoutShipment() {
+
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createNativeQuery(
+                "select p.id, p.description \n" +
+                        "from product_pallet p left join shipment_detail sd on p.id = sd.product_pallet_id\n" +
+                        "where sd.product_pallet_id is null;")
+                .addEntity(ProductPallet.class);
+        List resultPalletList = query.list();
+
+        return resultPalletList;
+    }
 }

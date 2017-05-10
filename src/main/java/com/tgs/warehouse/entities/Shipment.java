@@ -1,5 +1,6 @@
 package com.tgs.warehouse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
@@ -21,7 +22,7 @@ public class Shipment implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name="id", nullable = false)
     private Long id;
 
     @Column(name="planned_shipment_id", nullable = false)
@@ -35,11 +36,26 @@ public class Shipment implements Serializable{
     @JoinColumn(name = "planned_shipment_id", referencedColumnName="id", insertable = false, updatable = false)
     private PlannedShipment plannedShipment;
 
-    /*
     @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.REFRESH)
+    @Cascade(CascadeType.SAVE_UPDATE)
+    @JoinTable(
+            name = "shipment_detail",
+            joinColumns = @JoinColumn(name = "shipment_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_pallet_id")
+    )
     private List<ProductPallet> productPalletList;
-    */
+
+    public Shipment(){
+    }
+
+    public Shipment(Long plannedShipmentId, boolean completed){
+        this.plannedShipmentId = plannedShipmentId;
+        this.completed = completed;
+    }
+
+    public List<ProductPallet> getProductPalletList() {
+        return productPalletList;
+    }
 
     public Long getId() {
         return id;
@@ -71,5 +87,9 @@ public class Shipment implements Serializable{
 
     public void setPlannedShipment(PlannedShipment plannedShipment) {
         this.plannedShipment = plannedShipment;
+    }
+
+    public void setProductPalletList(List<ProductPallet> productPalletList) {
+        this.productPalletList = productPalletList;
     }
 }

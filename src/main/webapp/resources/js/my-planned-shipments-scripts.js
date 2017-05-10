@@ -95,6 +95,7 @@ function addPlannedShipment() {
         }
     });
     // Display the popup
+    newPlShipmentForm.dialog('option', 'title', 'Add new planned shipment');
     newPlShipmentForm.dialog("open");
 }
 
@@ -165,6 +166,7 @@ function updatePlannedShipment(plannedShipment) {
     $("#numberOfPallets").val(plannedShipment.quantity);
 
     // Display the popup
+    updatePlShipmentForm.dialog('option', 'title', 'Update planned shipment');
     updatePlShipmentForm.dialog("open");
 }
 
