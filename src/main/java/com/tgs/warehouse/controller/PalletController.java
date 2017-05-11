@@ -3,7 +3,7 @@ package com.tgs.warehouse.controller;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tgs.warehouse.entities.ProductPallet;
-import com.tgs.warehouse.services.LogisticUnitService;
+import com.tgs.warehouse.services.PalletService;
 import com.tgs.warehouse.util.DataTablesParamUtil;
 import com.tgs.warehouse.util.JQueryDataTableParamModel;
 import com.tgs.warehouse.util.JsonUtil;
@@ -28,7 +28,7 @@ import java.util.Map;
 public class PalletController {
 
     @Autowired
-    LogisticUnitService logisticUnitService;
+    PalletService palletService;
 
     @RequestMapping(value = "showAllPallets", method = RequestMethod.GET)
     public ModelAndView showAllPallets() throws IOException {
@@ -45,10 +45,10 @@ public class PalletController {
 
         JQueryDataTableParamModel param = DataTablesParamUtil.getParam(request);
 
-        List<ProductPallet> allPallets = logisticUnitService.getAllPallets();
+        List<ProductPallet> allPallets = palletService.getAllPallets();
 
         if(param.searchValue != null && param.searchValue != ""){
-            return searchPalletByDescriptionJson(param, allPallets, logisticUnitService);
+            return searchPalletByDescriptionJson(param, allPallets, palletService);
         } else {
             return getAllPalletsJson(param, allPallets);
         }
@@ -60,7 +60,7 @@ public class PalletController {
     public String getPallets() throws IOException{
         System.out.println("In getPallets for Shipment creation");
 
-        List<ProductPallet> productPalletList = logisticUnitService.getPalletsWithoutShipment();
+        List<ProductPallet> productPalletList = palletService.getPalletsWithoutShipment();
 
         return getAllPalletsJson(null, productPalletList);
     }
@@ -79,7 +79,7 @@ public class PalletController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logisticUnitService.saveProductPallet(pallet);
+        palletService.saveProductPallet(pallet);
         System.out.println("New Pallet added with Spring Controller");
         ModelAndView mav = new ModelAndView("showAllPallets");
         return mav;
@@ -89,7 +89,7 @@ public class PalletController {
     public ModelAndView deletePallet(HttpServletRequest request){
 
         Long palletId = Long.parseLong(request.getParameter("palletId"));
-        boolean palletDeleted = logisticUnitService.deleteProductPallet(palletId);
+        boolean palletDeleted = palletService.deleteProductPallet(palletId);
         ModelAndView mav = new ModelAndView("showAllPallets");
 
         if (palletDeleted) {
@@ -100,9 +100,9 @@ public class PalletController {
         return mav;
     }
 
-    private String searchPalletByDescriptionJson(JQueryDataTableParamModel param, List<ProductPallet> allPallets, LogisticUnitService logisticUnitService) throws IOException {
+    private String searchPalletByDescriptionJson(JQueryDataTableParamModel param, List<ProductPallet> allPallets, PalletService palletService) throws IOException {
 
-        List<ProductPallet> foundPalletList = logisticUnitService.search(param.searchValue);
+        List<ProductPallet> foundPalletList = palletService.search(param.searchValue);
 
         int foundPalletsSize = foundPalletList.size();
         int iTotalRecords = allPallets.size();

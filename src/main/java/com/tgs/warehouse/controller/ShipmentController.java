@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tgs.warehouse.entities.ProductPallet;
 import com.tgs.warehouse.entities.Shipment;
-import com.tgs.warehouse.services.LogisticUnitService;
+import com.tgs.warehouse.services.PalletService;
 import com.tgs.warehouse.services.ShipmentService;
 import com.tgs.warehouse.util.DataTablesParamUtil;
 import com.tgs.warehouse.util.JQueryDataTableParamModel;
@@ -34,7 +34,7 @@ public class ShipmentController {
     ShipmentService shipmentService;
 
     @Autowired
-    LogisticUnitService logisticUnitService;
+    PalletService palletService;
 
     @RequestMapping(value = "showShipments", method = RequestMethod.GET)
     public ModelAndView showShipments() throws IOException {
@@ -127,7 +127,7 @@ public class ShipmentController {
 
         for(Object ppId : palletIdList){
             Long palletId = Long.parseLong(ppId.toString());
-            palletToBeShiped = logisticUnitService.getProductPalletById(palletId);
+            palletToBeShiped = palletService.getProductPalletById(palletId);
             palletList.add(palletToBeShiped);
         }
 
@@ -157,7 +157,7 @@ public class ShipmentController {
 
         for(Object ppId : palletIdList){
             Long palletId = Long.parseLong(ppId.toString());
-            palletToBeShiped = logisticUnitService.getProductPalletById(palletId);
+            palletToBeShiped = palletService.getProductPalletById(palletId);
             palletList.add(palletToBeShiped);
         }
 

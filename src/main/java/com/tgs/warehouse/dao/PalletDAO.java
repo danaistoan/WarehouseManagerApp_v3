@@ -13,12 +13,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class LogisticUnitDAO {
+public class PalletDAO {
 
 	private SessionFactory sessionFactory;
 
 	@Autowired
-	public LogisticUnitDAO(SessionFactory sessionFactory) {
+	public PalletDAO(SessionFactory sessionFactory) {
 		Objects.requireNonNull(sessionFactory);
 		this.sessionFactory = sessionFactory;
 	}
