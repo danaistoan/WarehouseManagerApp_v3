@@ -27,10 +27,6 @@ public class PlannedShipment implements Serializable{
     public PlannedShipment(){
     }
 
-    public PlannedShipment(Long plannedShipmentId){
-        this.id = plannedShipmentId;
-    }
-
     public Long getId() {
         return id;
     }

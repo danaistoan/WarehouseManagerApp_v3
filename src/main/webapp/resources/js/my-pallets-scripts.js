@@ -1,7 +1,7 @@
 
 function loadUserInfo(){
     var userInfo = $("#userInfo");
-    $.get("userInfo", function(data, status){
+    $.get("../userInfo", function(data, status){
         userInfo.html("Current user: <b>" + data.username + "</b>");
 
         if(data.userType == "A") {

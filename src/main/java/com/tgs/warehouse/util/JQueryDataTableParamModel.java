@@ -5,10 +5,6 @@ package com.tgs.warehouse.util;
  */
 public class JQueryDataTableParamModel {
 
-
-    // Request sequence number sent by DataTable, same value must be returned in response
-    //public String echo;
-
     // Number of records that should be shown in table
     public int length;
 

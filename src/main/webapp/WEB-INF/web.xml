@@ -18,7 +18,7 @@
 	    <res-auth>Container</res-auth>
 	</resource-ref>
 
-     The definition of the Root Spring Container shared by all Servlets and Filters
+     <!--The definition of the Root Spring Container shared by all Servlets and Filters-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring/root-context.xml</param-value>

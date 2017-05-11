@@ -5,7 +5,7 @@ var palletIdList = [];
 
 function loadUserInfo(){
     var userInfo = $("#userInfo");
-    $.get("userInfo", function(data, status){
+    $.get("../userInfo", function(data, status){
         userInfo.html("Current user: <b>" + data.username + "</b>");
 
         loadDataTableShipments();
@@ -120,7 +120,7 @@ function addShipment() {
     plannedShipmentCombo.html("");
 
     // Load data for combo: planned shipments
-    $.get("getPlannedShipments", function(data, status){
+    $.get("../PlannedShipments/getPlannedShipments", function(data, status){
         allPlannedShipments = data.plannedShipmentList;
 
         $.each(allPlannedShipments, function(key, value) {
@@ -129,7 +129,7 @@ function addShipment() {
     });
 
     // Load data for combo: pallets
-    $.get("getPallets", function(data, status){
+    $.get("../Pallets/getPallets", function(data, status){
         allPalletList = data.palletList;
     });
 

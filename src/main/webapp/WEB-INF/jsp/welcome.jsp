@@ -23,7 +23,6 @@
     <script type="text/javascript" src="resources/js/jquery-ui.js"></script>
     <script type="text/javascript" src="resources/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="resources/js/jquery.validate.js"></script>
-    <!--<script type="text/javascript" src="resources/js/additional-methods.js"></script>-->
     <script type="text/javascript" src="resources/js/my-common-scripts.js"></script>
     <style>
         h1 {text-align:center;}
@@ -36,9 +35,9 @@
 
 <h1> Welcome to Web Warehouse! </h1>
 
-    <p><a href="showAllPallets">Show Pallets</a><br></p>
-    <p><a href="showShipments">Show Shipments</a><br></p>
-    <p><a href="showPlannedShipments">Show Planned Shipments</a></p>
+    <p><a href="Pallets/showAllPallets">Show Pallets</a><br></p>
+    <p><a href="Shipments/showShipments">Show Shipments</a><br></p>
+    <p><a href="PlannedShipments/showPlannedShipments">Show Planned Shipments</a></p>
 
 </div>
 </body>

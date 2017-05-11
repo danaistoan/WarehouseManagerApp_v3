@@ -12,27 +12,27 @@
     <title>Show all pallets</title>
     <!-- link rel="stylesheet" type="text/css" href="/css/styles.css"/> -->
 
-    <link href="resources/css/demo_page.css" rel="stylesheet" type="text/css"/>
-    <link href="resources/css/demo_table.css" rel="stylesheet" type="text/css"/>
-    <link href="resources/css/demo_table_jui.css" rel="stylesheet" type="text/css"/>
-    <link href="resources/css/dataTables.jqueryui.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="resources/css/jquery-ui.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="resources/css/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="resources/css/styles.css" rel="stylesheet" type="text/css"/>
+    <link href="../resources/css/demo_page.css" rel="stylesheet" type="text/css"/>
+    <link href="../resources/css/demo_table.css" rel="stylesheet" type="text/css"/>
+    <link href="../resources/css/demo_table_jui.css" rel="stylesheet" type="text/css"/>
+    <link href="../resources/css/dataTables.jqueryui.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="../resources/css/jquery-ui.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="../resources/css/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="../resources/css/styles.css" rel="stylesheet" type="text/css"/>
 
-    <script type="text/javascript" src="resources/js/jquery-3.2.0.js"></script>
-    <script type="text/javascript" src="resources/js/jquery-ui.js"></script>
-    <script type="text/javascript" src="resources/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="resources/js/jquery.validate.js"></script>
-    <script type="text/javascript" src="resources/js/my-common-scripts.js"></script>
-    <script type="text/javascript" src="resources/js/my-pallets-scripts.js"></script>
+    <script type="text/javascript" src="../resources/js/jquery-3.2.0.js"></script>
+    <script type="text/javascript" src="../resources/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../resources/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../resources/js/jquery.validate.js"></script>
+    <script type="text/javascript" src="../resources/js/my-common-scripts.js"></script>
+    <script type="text/javascript" src="../resources/js/my-pallets-scripts.js"></script>
 </head> <div id="demo_jui">
 <body id="dt_example">
 <div id="container">
 
         <div id="userInfo" align="right"> </div>
 
-        <form id="logoutForm" action="logout" method="POST" align="right">
+        <form id="logoutForm" action="../logout" method="POST" align="right">
             <input type="hidden" name="action" value="logout"/>
             <a onclick="logout()">Logout</a>
         </form>
@@ -78,8 +78,8 @@
         </div>
 
     </div>
-</div>
 </body>
+</div>
 </html>
 <script>
     $(document).ready(function () {

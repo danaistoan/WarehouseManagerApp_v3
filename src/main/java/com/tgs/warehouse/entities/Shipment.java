@@ -1,6 +1,5 @@
 package com.tgs.warehouse.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
@@ -53,10 +52,6 @@ public class Shipment implements Serializable{
         this.completed = completed;
     }
 
-    public List<ProductPallet> getProductPalletList() {
-        return productPalletList;
-    }
-
     public Long getId() {
         return id;
     }
@@ -92,4 +87,9 @@ public class Shipment implements Serializable{
     public void setProductPalletList(List<ProductPallet> productPalletList) {
         this.productPalletList = productPalletList;
     }
+
+    public List<ProductPallet> getProductPalletList() {
+        return productPalletList;
+    }
+
 }
