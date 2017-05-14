@@ -48,7 +48,7 @@ public class ShipmentService {
     // Search shipment by PlannedShipmentID
     public List<Shipment> searchShipments(String searchValue){
 
-        Long planned_shipment_id = Long.parseLong(searchValue);
+        Long planned_shipment_id = Long.valueOf(searchValue);
         List<Shipment> resultShipments = shipmentDAO.searchShipments(planned_shipment_id);
 
         return resultShipments;

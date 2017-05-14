@@ -323,7 +323,7 @@ function updateShipment(shipment) {
     // TODO: Add new pallets until shipment's quantity is reached
 
     // Load data for combo: pallets
-    $.get("getPallets", function(data, status){
+    $.get("../Pallets/getPallets", function(data, status){
         allPalletList = data.palletList;
     });
 

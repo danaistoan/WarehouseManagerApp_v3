@@ -30,9 +30,9 @@ public class ShipmentDAO {
     public List<Shipment> searchShipments(Long planned_shipment_id) {
 
         Session session = sessionFactory.getCurrentSession();
-        String hql = "select s from Shipment s inner join s.planned_shipment_id ps where s.planned_shipment_id=?";
+        String hql = "select s from Shipment s where s.plannedShipmentId =:plannedShipmentId";
         TypedQuery<Shipment> query = session.createQuery(hql, Shipment.class);
-        query.setParameter("planned_shipment_id", "%" + planned_shipment_id + "%");
+        query.setParameter("plannedShipmentId", planned_shipment_id);
         List<Shipment> shipmentList = query.getResultList();
         System.out.println("SearchShipments with Hibernate executed");
 
